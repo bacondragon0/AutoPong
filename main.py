@@ -13,7 +13,7 @@ dt = config.delta_time
 
 ball = Ball(250, 250, 10, 64, {'R':255.0,'G':0.0,'B':0.0,'A':100.0})
 
-ball.InitConditions([screen_size[0] // 2, screen_size[1] // 2], [-150, 20])
+ball.InitConditions([screen_size[0] // 2, screen_size[1] // 2], [100, 45])
 
 bar1 = Bar(screen_size[0] * 1/10,10,60,{'R':255.0,'G':0.0,'B':0.0,'A':100.0})
 bar2 = Bar(screen_size[0] * 9/10,10,60,{'R':255.0,'G':0.0,'B':0.0,'A':100.0},'q','e')
@@ -34,13 +34,17 @@ def display():
 
 def update(value):
 
-    
     Force.BarCollision(ball, [bar1,bar2])
     Force.Kinetic(objects, dt)
     Force.WallBounce(objects)
 
+    interpt = ball.CalculateInterceptPt([bar1.position,bar2.position])
+    #ball.DrawInterceptPt(interpt)
+
     bar1.Move()
     bar2.Move()
+    bar2.BotMove(interpt)
+    bar1.BotMove(interpt)
 
     # Advance Frame
     GLUT.glutPostRedisplay()
