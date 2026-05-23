@@ -36,10 +36,15 @@ class Bar:
         self.true_center = [self.position[0] + self.lengthx, self.position[1] + self.lengthy//2]
 
     def BotMove(self,pt):
+
+        if abs(self.true_center[1] - pt[1]) < 10: return
+
         if self.true_center[1] < pt[1]:
-            self.position[1] += move_factor * config.delta_time
+            if self.position[1] + self.lengthy < screen_size[1]:
+                self.position[1] += move_factor * config.delta_time
         elif self.true_center[1] > pt[1]:
-            self.position[1] -= move_factor * config.delta_time
+            if self.position[1] > 0:
+                self.position[1] -= move_factor * config.delta_time
 
     def Draw(self):
         GL.glColor3f(self.color['R'], self.color['G'], self.color['B'])

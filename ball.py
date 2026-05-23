@@ -4,7 +4,7 @@ import OpenGL.GLUT as GLUT
 import config
 import random
 
-fBounce = 1.10
+fBounce = 1
 unit_scale = 0.1
 screen_size = config.screen_size
 delta = config.delta_time
@@ -97,7 +97,7 @@ class Ball:
         else: barpos = bars[1]
 
         x = barpos[0]
-        y = self.position[1]
+        y = self.position[1] + (self.velocity[1] / self.velocity[0]) * (barpos[0] - self.position[0])
         
         return (x,y)
 

@@ -2,6 +2,7 @@ import math
 import config
 import OpenGL.GL as GL
 import OpenGL.GLUT as GLUT
+import random
 
 from ball import Ball
 from ball import Force
@@ -13,7 +14,7 @@ dt = config.delta_time
 
 ball = Ball(250, 250, 10, 64, {'R':255.0,'G':0.0,'B':0.0,'A':100.0})
 
-ball.InitConditions([screen_size[0] // 2, screen_size[1] // 2], [100, 45])
+ball.InitConditions([screen_size[0] // 2, screen_size[1] // 2], [random.choice([-300,300]), random.randint(-50,50)])
 
 bar1 = Bar(screen_size[0] * 1/10,10,60,{'R':255.0,'G':0.0,'B':0.0,'A':100.0})
 bar2 = Bar(screen_size[0] * 9/10,10,60,{'R':255.0,'G':0.0,'B':0.0,'A':100.0},'q','e')
@@ -43,8 +44,11 @@ def update(value):
 
     bar1.Move()
     bar2.Move()
-    bar2.BotMove(interpt)
-    bar1.BotMove(interpt)
+    
+    if ball.velocity[0] < 0:
+        bar1.BotMove(interpt)
+    else:
+        bar2.BotMove(interpt)
 
     # Advance Frame
     GLUT.glutPostRedisplay()
